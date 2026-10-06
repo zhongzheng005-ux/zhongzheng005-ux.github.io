@@ -1,0 +1,14 @@
+# Jekyll 构建产物
+_site/
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata
+
+# 本地依赖（如果你用 bundle 在本地预览）
+vendor/
+.bundle/
+node_modules/
+
+# 系统杂物
+.DS_Store
+Thumbs.db

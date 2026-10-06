@@ -1,0 +1,8 @@
+# 顶部导航栏。改完等 GitHub 重新构建即可。
+main:
+  - title: "文章"
+    url: /blog/
+  - title: "关于"
+    url: /about/
+  - title: "项目"
+    url: /projects/
