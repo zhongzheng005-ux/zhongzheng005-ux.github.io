@@ -261,11 +261,14 @@ wordcount:
   min2read: true
   total_wordcount: true
 
-# ---------- 访问量（不蒜子，免费无需注册）----------
+# ---------- 访问量（不蒜子）----------
+# ⚠️ 2026-11-22 关闭：busuanzi.ibruce.info 在本地网络连不上（请求 25 秒无响应），
+#    而它的 <script> 是同步加载的，会一直挂着拖慢页面、并在侧栏留下永久的转圈占位符。
+#    想重新开：把下面三项改回 true。想换更可靠的统计（如 GoatCounter）再告诉我。
 busuanzi:
-  site_uv: true
-  site_pv: true
-  page_pv: true
+  site_uv: false
+  site_pv: false
+  page_pv: false
 
 # ---------- 本地搜索 ----------
 search:
@@ -370,7 +373,9 @@ inject:
   head:
     - <link rel="stylesheet" href="/css/custom.css">
   bottom:
-    - <script>setTimeout(function(){var uv=document.getElementById("busuanzi_value_site_uv"),pv=document.getElementById("busuanzi_value_page_pv");if((uv&&!uv.textContent.trim())||(pv&&!pv.textContent.trim())){document.querySelectorAll(".webinfo-item").forEach(function(el){if(/访客|浏览/.test(el.textContent))el.style.display="none";});document.querySelectorAll(".post-meta-pv-cv").forEach(function(el){el.style.display="none";});}},6000);</script>
+    # 访问量统计（不蒜子）—— 默认先藏起来，只有真拿到数字才显示，永远不会留个转圈的占位符
+    - <script>(function(){var R=function(){return[].slice.call(document.querySelectorAll(".webinfo-item")).filter(function(e){return/访客|浏览量/.test(e.textContent)})},H=function(){R().forEach(function(e){e.style.display="none"})},S=function(){R().forEach(function(e){e.style.display=""})};H();var n=0,t=setInterval(function(){n++;var u=document.getElementById("busuanzi_value_site_uv"),p=document.getElementById("busuanzi_value_site_pv");if((u&&u.textContent.trim())||(p&&p.textContent.trim())){S();clearInterval(t)}else if(n>=20){clearInterval(t)}},600)})();</script>
+    - <script>(function(){var el=document.querySelector(".post-meta-pv-cv");if(!el)return;el.style.display="none";var n=0,t=setInterval(function(){n++;var p=document.getElementById("busuanzi_value_page_pv");if(p&&p.textContent.trim()){el.style.display="";clearInterval(t)}else if(n>=20){clearInterval(t)}},600)})();</script>
 
 # ---------- CDN ----------
 CDN:
