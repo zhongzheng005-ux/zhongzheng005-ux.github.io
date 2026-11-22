@@ -9,15 +9,15 @@
   --ec-accent-2: #22d3ee;
   /* 深色玻璃：白底玻璃在明亮壁纸上看不出透明，改用深色半透明 + 浅色文字，
      这样无论壁纸是亮是暗，卡片都能和背景分离、壁纸也透得出来 */
-  --ec-card-bg: rgba(11, 17, 30, 0.45);
-  --ec-card-bg-solid: rgba(11, 17, 30, 0.66);
-  --ec-border: rgba(255, 255, 255, 0.14);
-  --ec-shadow: 0 26px 60px -26px rgba(2, 6, 23, 0.85), 0 6px 20px -10px rgba(2, 6, 23, 0.55);
-  /* 只做很轻的模糊：壁纸的笔触和细节要还能看清，不能糊成一团 */
-  --ec-blur: 5px;
+  --ec-card-bg: rgba(8, 13, 24, 0.42);
+  --ec-card-bg-solid: rgba(8, 13, 24, 0.6);
+  --ec-border: rgba(255, 255, 255, 0.12);
+  --ec-shadow: 0 26px 60px -26px rgba(2, 6, 23, 0.8), 0 6px 20px -10px rgba(2, 6, 23, 0.5);
+  /* 0 = 完全不糊背景，壁纸和首屏一样清晰；想要磨砂感改成 4px 左右 */
+  --ec-blur: 0px;
   --ec-radius: 18px;
-  --ec-text: #eef4ff;
-  --ec-text-dim: #a3b4d2;
+  --ec-text: #f2f7ff;
+  --ec-text-dim: #cfdcf2;
 }
 
 html[data-theme="dark"] {
