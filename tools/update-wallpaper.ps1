@@ -1,4 +1,4 @@
-﻿<#
+<#
 .SYNOPSIS
     把「当前 Windows 桌面壁纸」同步成博客背景，并发布上线。
 
@@ -144,18 +144,20 @@ Write-Host '[4/4] 提交并推送…' -ForegroundColor Cyan
 Push-Location $RepoRoot
 try {
     $git = 'git'
-    & $git add 'source/img/wallpaper.jpg' '_config.butterfly.yml'
+    # 注意：git 会把正常进度写到 stderr，PowerShell 会误判成错误并中断脚本，
+    # 所以统一用 2>&1 合并后再看 $LASTEXITCODE。
+    & $git add 'source/img/wallpaper.jpg' '_config.butterfly.yml' 2>&1 | Out-Null
     if ($LASTEXITCODE -ne 0) { throw 'git add 失败' }
 
-    & $git diff --cached --quiet
+    & $git diff --cached --quiet 2>&1 | Out-Null
     if ($LASTEXITCODE -eq 0) {
         Write-Host '      没有变化，跳过提交' -ForegroundColor Yellow
     } else {
         $stamp = Get-Date -Format 'yyyy-MM-dd HH:mm'
-        & $git -c core.quotepath=false commit -m "chore: sync desktop wallpaper ($stamp)"
+        & $git -c core.quotepath=false commit -m "chore: sync desktop wallpaper ($stamp)" 2>&1 | Out-Null
         if ($LASTEXITCODE -ne 0) { throw 'git commit 失败' }
 
-        & $git push origin main
+        & $git push origin main 2>&1 | Out-Null
         if ($LASTEXITCODE -ne 0) { throw 'git push 失败（检查网络/代理：git config --global http.proxy）' }
         Write-Host ''
         Write-Host '✅ 已推送。GitHub Actions 大概 1~2 分钟后重新构建完成，' -ForegroundColor Green
