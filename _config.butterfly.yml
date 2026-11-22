@@ -55,7 +55,7 @@ avatar:
 #  【想要纯色/纯渐变】这行也支持任何 CSS 背景值，例如：
 #      background: linear-gradient(135deg, #0f172a, #1e293b)
 # ============================================================
-background: /img/bg.svg
+background: /img/wallpaper.jpg
 
 # ---------- 首页横幅 ----------
 disable_top_img: false
