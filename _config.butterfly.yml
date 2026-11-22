@@ -373,8 +373,13 @@ inject:
   head:
     - <link rel="stylesheet" href="/css/custom.css">
   bottom:
-    # 动态壁纸背景：WE 壁纸压缩成的循环视频（poster 是首屏兜底图，视频没加载出来也能看）
+    # >>> wallpaper (managed) >>>
+    # 这一段由 tools/update-wallpaper.ps1 自动维护，手改也可以，但脚本换壁纸时会被重写。
+    # veil 是压暗蒙版（壁纸偏亮时保证白色标题看得清），video 是动态壁纸本体，
+    # poster 是首屏兜底图：视频还没加载出来时先显示它。
+    - <div id="ec-bg-veil" aria-hidden="true"></div>
     - <video id="ec-bg-video" autoplay muted loop playsinline preload="auto" poster="/img/wallpaper-poster.jpg" aria-hidden="true"><source src="/img/wallpaper-bg.mp4" type="video/mp4"></video>
+    # <<< wallpaper (managed) <<<
     # 访问量统计（不蒜子）—— 默认先藏起来，只有真拿到数字才显示，永远不会留个转圈的占位符
     - <script>(function(){var R=function(){return[].slice.call(document.querySelectorAll(".webinfo-item")).filter(function(e){return/访客|浏览量/.test(e.textContent)})},H=function(){R().forEach(function(e){e.style.display="none"})},S=function(){R().forEach(function(e){e.style.display=""})};H();var n=0,t=setInterval(function(){n++;var u=document.getElementById("busuanzi_value_site_uv"),p=document.getElementById("busuanzi_value_site_pv");if((u&&u.textContent.trim())||(p&&p.textContent.trim())){S();clearInterval(t)}else if(n>=20){clearInterval(t)}},600)})();</script>
     - <script>(function(){var el=document.querySelector(".post-meta-pv-cv");if(!el)return;el.style.display="none";var n=0,t=setInterval(function(){n++;var p=document.getElementById("busuanzi_value_page_pv");if(p&&p.textContent.trim()){el.style.display="";clearInterval(t)}else if(n>=20){clearInterval(t)}},600)})();</script>

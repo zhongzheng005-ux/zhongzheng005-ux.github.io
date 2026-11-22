@@ -69,31 +69,43 @@ index_img: /img/hero.jpg      # 首页横幅专用图
 default_top_img: /img/bg.svg  # 其它页面兜底
 ```
 
-### 一键把「当前桌面壁纸」同步成博客背景
+### 一键把「当前壁纸」同步成博客背景（支持 Wallpaper Engine）
 
-想让自己电脑的壁纸直接当博客背景，用这个脚本：
+想让自己电脑上的壁纸直接当博客背景，用这个脚本：
 
 ```powershell
 cd F:\dsh-mcp\blog
 
-# 先试一次：只生成图片、改配置，不提交
+# 先试一次：只生成素材、改配置，不提交
 .\tools\update-wallpaper.ps1 -Preview
 
 # 满意了就去掉 -Preview，它会自动 commit + push
 .\tools\update-wallpaper.ps1
 ```
 
-它做的事：读注册表里当前桌面壁纸 → 等比缩放到不超过 2560 宽、转成 JPEG →
-存成 `source/img/wallpaper.jpg` → 把 `background:` 指向它 → `git add/commit/push`。
-推完等 1~2 分钟 Actions 构建好，**所有访客**打开博客看到的就是这张。
+**它会自动判断你用的是什么壁纸：**
+
+| 你的壁纸 | 脚本的做法 | 博客上的效果 |
+|---|---|---|
+| **Wallpaper Engine**（视频壁纸 `.mp4`） | 用 ffmpeg 压成 720p/24fps 循环视频（约 3~5 MB）+ 抽一张海报图 | **会动的背景** |
+| **Wallpaper Engine**（图片壁纸） | 等比缩放成 JPEG | 静态背景 |
+| **Windows 桌面壁纸**（静态图） | 等比缩放到不超过 2560 宽、转 JPEG | 静态背景 |
+
+来源优先级：装了 Wallpaper Engine 就读它的 `config.json` 里**当前每台显示器在用的那张**（所以你在 WE 里换壁纸后跑一下脚本，博客就跟着变）；没有 WE 才回退到 Windows 注册表。
+用 `-Source windows` 可以强制忽略 WE。
 
 几个要留意的点：
 
-- **不是实时同步**。你换了桌面壁纸，博客不会自己变；想变就再跑一次脚本。
-- 图片太大首屏会慢，可以压小：`.\tools\update-wallpaper.ps1 -MaxWidth 1920 -Quality 78`
-- 想换回内置壁纸，把 `background:` 改回 `/img/bg.svg`（或 aurora / midnight）再 push 即可。
-- 壁纸设成「幻灯片放映」时注册表里的路径可能和实际显示的不一致，
-  脚本会回退去读 Windows 真正在用的 `TranscodedWallpaper` 缓存文件。
+- **不是实时同步**。你换了壁纸，博客不会自己变；想变就再跑一次脚本。
+- 视频壁纸要 ffmpeg。本机没有的话脚本会**自动下载一份**到 `tools\bin\`（约 105 MB，只下一次，已被 `.gitignore` 排除，不会进仓库）。也可以自己装一个丢进 `tools\bin\ffmpeg.exe`。
+- 视频太大就压狠一点：`.\tools\update-wallpaper.ps1 -VideoCrf 38 -VideoSeconds 30`（数字越大体积越小）
+- 静态图太大首屏会慢：`.\tools\update-wallpaper.ps1 -MaxWidth 1920 -Quality 78`
+- 想换回内置壁纸，把 `background:` 改回 `/img/bg.svg`（或 aurora / midnight），
+  并把 `inject.bottom` 里 `# >>> wallpaper (managed) >>>` 到 `# <<< wallpaper (managed) <<<` 之间那段删掉再 push。
+- 「幻灯片放映」时注册表里的路径可能和实际显示的不一致，脚本会回退去读 Windows 真正在用的
+  `TranscodedWallpaper` 缓存文件。
+- 那层压暗蒙版（`#ec-bg-veil`）是给白色标题保清晰度用的，壁纸很暗的话可以把
+  `source/css/custom.css` 里它的透明度调低。
 - 脚本需要系统里有 PowerShell 和 git；push 走的是仓库已经配好的凭据。
 
 ---

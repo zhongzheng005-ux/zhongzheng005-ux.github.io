@@ -52,6 +52,23 @@ html[data-theme="dark"] {
   background-color: #070b14;
 }
 
+/* 压暗蒙版：壁纸亮的时候保证白色标题/正文看得清。
+   z-index -2：在视频(-3)之上、粒子网 canvas(-1)之下，不挡任何内容。 */
+#ec-bg-veil {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(5, 9, 18, 0.66) 0%,
+      rgba(5, 9, 18, 0.3) 26%,
+      rgba(5, 9, 18, 0.34) 55%,
+      rgba(5, 9, 18, 0.78) 100%
+    );
+}
+
 /* 用户开了「减少动态效果」就只留静态海报 */
 @media (prefers-reduced-motion: reduce) {
   #ec-bg-video {

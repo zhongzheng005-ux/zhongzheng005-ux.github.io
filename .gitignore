@@ -5,6 +5,10 @@ public/
 # 本地依赖
 node_modules/
 
+# 换壁纸脚本自动下载的 ffmpeg（一百多 MB，绝不入库）
+tools/bin/
+tools/bin/_unzip/
+
 # Hexo 运行时生成的文件
 db.json
 *.log
