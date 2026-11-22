@@ -55,7 +55,7 @@ avatar:
 #  【想要纯色/纯渐变】这行也支持任何 CSS 背景值，例如：
 #      background: linear-gradient(135deg, #0f172a, #1e293b)
 # ============================================================
-background: /img/wallpaper.jpg
+background: /img/wallpaper-poster.jpg
 
 # ---------- 首页横幅 ----------
 disable_top_img: false
@@ -373,6 +373,8 @@ inject:
   head:
     - <link rel="stylesheet" href="/css/custom.css">
   bottom:
+    # 动态壁纸背景：WE 壁纸压缩成的循环视频（poster 是首屏兜底图，视频没加载出来也能看）
+    - <video id="ec-bg-video" autoplay muted loop playsinline preload="auto" poster="/img/wallpaper-poster.jpg" aria-hidden="true"><source src="/img/wallpaper-bg.mp4" type="video/mp4"></video>
     # 访问量统计（不蒜子）—— 默认先藏起来，只有真拿到数字才显示，永远不会留个转圈的占位符
     - <script>(function(){var R=function(){return[].slice.call(document.querySelectorAll(".webinfo-item")).filter(function(e){return/访客|浏览量/.test(e.textContent)})},H=function(){R().forEach(function(e){e.style.display="none"})},S=function(){R().forEach(function(e){e.style.display=""})};H();var n=0,t=setInterval(function(){n++;var u=document.getElementById("busuanzi_value_site_uv"),p=document.getElementById("busuanzi_value_site_pv");if((u&&u.textContent.trim())||(p&&p.textContent.trim())){S();clearInterval(t)}else if(n>=20){clearInterval(t)}},600)})();</script>
     - <script>(function(){var el=document.querySelector(".post-meta-pv-cv");if(!el)return;el.style.display="none";var n=0,t=setInterval(function(){n++;var p=document.getElementById("busuanzi_value_page_pv");if(p&&p.textContent.trim()){el.style.display="";clearInterval(t)}else if(n>=20){clearInterval(t)}},600)})();</script>

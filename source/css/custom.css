@@ -34,6 +34,31 @@ html[data-theme="dark"] {
   background-repeat: no-repeat !important;
 }
 
+/* 动态壁纸视频层：
+   - 铺满视口、等比裁切（object-fit: cover，两边不留黑边）
+   - z-index -3 在 #web_bg(-999) 之上、粒子网 canvas(-1) 之下
+   - pointer-events: none 不挡鼠标（否则点不到下面的东西） */
+#ec-bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  object-fit: cover;
+  object-position: center center;
+  z-index: -3;
+  pointer-events: none;
+  background-color: #070b14;
+}
+
+/* 用户开了「减少动态效果」就只留静态海报 */
+@media (prefers-reduced-motion: reduce) {
+  #ec-bg-video {
+    display: none;
+  }
+}
+
 body {
   background-color: #070b14;
 }
