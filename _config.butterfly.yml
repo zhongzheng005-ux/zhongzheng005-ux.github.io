@@ -265,7 +265,7 @@ share:
     sites: wechat,weibo,qq
 
 # ---------- 评论（giscus）----------
-# repo_id / category_id 需要去 https://giscus.app 生成后填进来
+# 已填好：repo_id / category_id 来自 GitHub GraphQL
 comments:
   use: Giscus
   text: true
@@ -275,11 +275,15 @@ comments:
 
 giscus:
   repo: zhongzheng005-ux/zhongzheng005-ux.github.io
-  repo_id:
-  category_id:
+  repo_id: R_kgDOU-_GIw
+  category_id: DIC_kwDOU-_GI84DLs3a
   light_theme: light
   dark_theme: dark
   option:
+    data-mapping: pathname
+    data-lang: zh-CN
+    data-input-position: top
+    data-reactions-enabled: 1
 
 # ---------- 美化 ----------
 anchor:
