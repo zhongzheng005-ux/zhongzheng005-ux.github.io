@@ -69,6 +69,33 @@ index_img: /img/hero.jpg      # 首页横幅专用图
 default_top_img: /img/bg.svg  # 其它页面兜底
 ```
 
+### 一键把「当前桌面壁纸」同步成博客背景
+
+想让自己电脑的壁纸直接当博客背景，用这个脚本：
+
+```powershell
+cd F:\dsh-mcp\blog
+
+# 先试一次：只生成图片、改配置，不提交
+.\tools\update-wallpaper.ps1 -Preview
+
+# 满意了就去掉 -Preview，它会自动 commit + push
+.\tools\update-wallpaper.ps1
+```
+
+它做的事：读注册表里当前桌面壁纸 → 等比缩放到不超过 2560 宽、转成 JPEG →
+存成 `source/img/wallpaper.jpg` → 把 `background:` 指向它 → `git add/commit/push`。
+推完等 1~2 分钟 Actions 构建好，**所有访客**打开博客看到的就是这张。
+
+几个要留意的点：
+
+- **不是实时同步**。你换了桌面壁纸，博客不会自己变；想变就再跑一次脚本。
+- 图片太大首屏会慢，可以压小：`.\tools\update-wallpaper.ps1 -MaxWidth 1920 -Quality 78`
+- 想换回内置壁纸，把 `background:` 改回 `/img/bg.svg`（或 aurora / midnight）再 push 即可。
+- 壁纸设成「幻灯片放映」时注册表里的路径可能和实际显示的不一致，
+  脚本会回退去读 Windows 真正在用的 `TranscodedWallpaper` 缓存文件。
+- 脚本需要系统里有 PowerShell 和 git；push 走的是仓库已经配好的凭据。
+
 ---
 
 ## 怎么发一篇文章
