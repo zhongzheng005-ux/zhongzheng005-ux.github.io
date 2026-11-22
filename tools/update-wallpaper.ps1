@@ -26,7 +26,14 @@
     静态 JPEG 质量，默认 86。
 
 .PARAMETER VideoCrf
-    视频压缩质量，默认 34。数字越小越清晰、文件越大；20~30 很清晰，34~38 体积小。
+    视频压缩质量，默认 24。数字越小越清晰、文件越大；20~26 很清晰，30~38 体积小但会糊。
+
+.PARAMETER VideoHeight
+    背景视频的高度，默认 1080（宽 1920）。想要更清晰可以用 1440（2560x1440，体积大约翻倍），
+    想省流量用 720。
+
+.PARAMETER VideoFps
+    背景视频帧率，默认 30（和绝大多数壁纸源一致）。降到 24 能省一点体积但会显得卡。
 
 .PARAMETER VideoSeconds
     视频最多截取多少秒，默认 60。壁纸太长会让背景视频变得很重。
@@ -34,7 +41,8 @@
 .EXAMPLE
     .\update-wallpaper.ps1 -Preview
     .\update-wallpaper.ps1
-    .\update-wallpaper.ps1 -VideoCrf 30 -VideoSeconds 30
+    .\update-wallpaper.ps1 -VideoHeight 1440 -VideoCrf 22
+    .\update-wallpaper.ps1 -VideoHeight 720 -VideoCrf 30 -VideoSeconds 30
 
 .NOTES
     「同步」不是实时的：你换了壁纸，博客不会自己变，想变就再跑一次这个脚本。
@@ -48,7 +56,9 @@ param(
     [string]$Source = 'auto',
     [int]$MaxWidth = 2560,
     [int]$Quality = 86,
-    [int]$VideoCrf = 34,
+    [int]$VideoCrf = 24,
+    [int]$VideoHeight = 1080,
+    [int]$VideoFps = 30,
     [int]$VideoSeconds = 60
 )
 
@@ -198,20 +208,21 @@ if ($isVideo) {
     $outJpg = Join-Path $ImgDir 'wallpaper-poster.jpg'
 
     & $ff -y -hide_banner -loglevel error -i $srcPath -an -sn -t $VideoSeconds `
-        -vf 'scale=1280:720:flags=lanczos,fps=24' `
+        -vf "scale=-2:$VideoHeight`:flags=lanczos,fps=$VideoFps" `
         -c:v libx264 -preset medium -crf $VideoCrf -pix_fmt yuv420p `
-        -profile:v high -level 4.0 -movflags +faststart $outMp4
+        -profile:v high -level 4.2 -movflags +faststart $outMp4
     if ($LASTEXITCODE -ne 0 -or -not (Test-Path $outMp4)) { throw '视频压缩失败（ffmpeg 返回非 0）。' }
 
+    $posterW = [int]($VideoHeight * 16 / 9)
     & $ff -y -hide_banner -loglevel error -ss 00:00:03 -i $srcPath -frames:v 1 `
-        -vf 'scale=1600:900:flags=lanczos' -q:v 6 $outJpg
+        -vf "scale=${posterW}:$VideoHeight`:flags=lanczos" -q:v 2 $outJpg
     if ($LASTEXITCODE -ne 0 -or -not (Test-Path $outJpg)) { throw '海报图抽取失败。' }
 
     $mp4MB = (Get-Item $outMp4).Length / 1MB
-    Write-Host ("      wallpaper-bg.mp4    {0:N1} MB" -f $mp4MB) -ForegroundColor Green
+    Write-Host ("      wallpaper-bg.mp4    {0:N1} MB  ({1}p{2})" -f $mp4MB, $VideoHeight, $VideoFps) -ForegroundColor Green
     Write-Host ("      wallpaper-poster.jpg {0:N0} KB" -f ((Get-Item $outJpg).Length / 1KB)) -ForegroundColor Green
-    if ($mp4MB -gt 8) {
-        Write-Warning "背景视频 $([math]::Round($mp4MB,1)) MB 偏大。可以再压：-VideoCrf 38 -VideoSeconds 30"
+    if ($mp4MB -gt 40) {
+        Write-Warning "背景视频 $([math]::Round($mp4MB,1)) MB 偏大（访客要下这么多）。可以降一档：-VideoHeight 720 -VideoCrf 28"
     }
 
     $mode = 'video'
