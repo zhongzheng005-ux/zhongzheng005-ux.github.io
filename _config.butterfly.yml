@@ -370,7 +370,7 @@ inject:
   head:
     - <link rel="stylesheet" href="/css/custom.css">
   bottom:
-    - <script>setTimeout(function(){var uv=document.getElementById("busuanzi_value_site_uv");if(uv&&!uv.textContent.trim()){document.querySelectorAll(".webinfo-item").forEach(function(el){if(/访客|浏览/.test(el.textContent))el.style.display="none";});}},6000);</script>
+    - <script>setTimeout(function(){var uv=document.getElementById("busuanzi_value_site_uv"),pv=document.getElementById("busuanzi_value_page_pv");if((uv&&!uv.textContent.trim())||(pv&&!pv.textContent.trim())){document.querySelectorAll(".webinfo-item").forEach(function(el){if(/访客|浏览/.test(el.textContent))el.style.display="none";});document.querySelectorAll(".post-meta-pv-cv").forEach(function(el){el.style.display="none";});}},6000);</script>
 
 # ---------- CDN ----------
 CDN:
