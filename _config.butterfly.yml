@@ -37,24 +37,45 @@ avatar:
   img: /img/avatar.jpg
   effect: true
 
+# ============================================================
+#  壁纸（全站背景）
+# ------------------------------------------------------------
+#  【内置预设】source/img/ 里已经放好了三张，改下面这一行就能换：
+#      /img/bg.svg           深蓝紫渐变 + 网格（默认，最"技术感"）
+#      /img/bg-aurora.svg    极光（青绿 + 紫，颜色最活泼）
+#      /img/bg-midnight.svg  星空银河（最暗，长时间看最舒服）
+#
+#  【换成你自己的图片】两步：
+#      1. 把图片（jpg / png / webp / svg 都行）放到 source/img/ 目录，
+#         比如 source/img/my-wallpaper.jpg
+#      2. 把下面这行改成   background: /img/my-wallpaper.jpg
+#      推荐尺寸 1920×1080 或更大，横图；会自动铺满屏幕并保持比例不变形。
+#      想换成 GIF 动图也一样，直接写 .gif 文件名即可。
+#
+#  【想要纯色/纯渐变】这行也支持任何 CSS 背景值，例如：
+#      background: linear-gradient(135deg, #0f172a, #1e293b)
+# ============================================================
+background: /img/bg.svg
+
 # ---------- 首页横幅 ----------
 disable_top_img: false
-default_top_img:
+default_top_img: /img/bg.svg
 index_img:
 archive_img:
 
 # 文章默认封面（没配 cover 的文章用这几个渐变轮换）
+# 注意：渐变里的 # 必须用引号包住，否则 YAML 会把后面当注释截断！
 cover:
   index_enable: true
   aside_enable: true
   archives_enable: true
   default_cover:
-    - linear-gradient(135deg, #667eea 0%, #764ba2 100%)
-    - linear-gradient(135deg, #f093fb 0%, #f5576c 100%)
-    - linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)
-    - linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)
-    - linear-gradient(135deg, #fa709a 0%, #fee140 100%)
-    - linear-gradient(135deg, #30cfd0 0%, #330867 100%)
+    - "linear-gradient(135deg, #4f46e5 0%, #7c3aed 55%, #c026d3 100%)"
+    - "linear-gradient(135deg, #0ea5e9 0%, #4f46e5 100%)"
+    - "linear-gradient(135deg, #1e293b 0%, #4f46e5 100%)"
+    - "linear-gradient(135deg, #0891b2 0%, #14b8a6 100%)"
+    - "linear-gradient(135deg, #7c3aed 0%, #db2777 100%)"
+    - "linear-gradient(135deg, #334155 0%, #64748b 100%)"
 
 # ---------- 文章元信息 ----------
 post_meta:
@@ -73,8 +94,8 @@ post_meta:
     label: true
 
 # ---------- 首页 ----------
-index_site_info_top:
-index_top_img_height:
+index_site_info_top: 40%
+index_top_img_height: 460px
 index_layout: 3
 index_post_content:
   method: 3
@@ -197,7 +218,7 @@ aside:
     last_push_date: true
     sort_order:
     # 「载入天数」从这里开始算
-    runtime_date: '2026-11-22 13:00:00'
+    runtime_date: '2026-11-22 00:00:00'
 
 rightside_bottom:
 
@@ -306,6 +327,15 @@ canvas_ribbon:
   click_to_change: false
   mobile: false
 
+# 鼠标吸附粒子网（参考 chan-shaw.github.io 的效果）
+canvas_nest:
+  enable: true
+  color: '139,150,255'
+  opacity: 0.62
+  zIndex: -1
+  count: 120
+  mobile: false
+
 click_heart:
   enable: false
   mobile: false
@@ -335,9 +365,12 @@ Open_Graph_meta:
 
 css_prefix: true
 
+# ---------- 自定义注入（美化样式表）----------
 inject:
   head:
+    - <link rel="stylesheet" href="/css/custom.css">
   bottom:
+    - <script>setTimeout(function(){var uv=document.getElementById("busuanzi_value_site_uv");if(uv&&!uv.textContent.trim()){document.querySelectorAll(".webinfo-item").forEach(function(el){if(/访客|浏览/.test(el.textContent))el.style.display="none";});}},6000);</script>
 
 # ---------- CDN ----------
 CDN:
@@ -345,3 +378,5 @@ CDN:
   third_party_provider: jsdelivr
   version: true
   custom_format:
+  option:
+    canvas_nest: /js/canvas-nest.min.js

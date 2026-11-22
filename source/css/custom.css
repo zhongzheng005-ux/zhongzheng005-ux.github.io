@@ -1,0 +1,426 @@
+/* ============================================================
+ *  Eclipse 的博客 —— 自定义美化层
+ *  设计：深色渐变壁纸 + 毛玻璃卡片 + 透明顶栏
+ *  只做视觉覆盖，不改主题结构与功能
+ * ============================================================ */
+
+:root {
+  --ec-accent: #6366f1;
+  --ec-accent-2: #22d3ee;
+  --ec-card-bg: rgba(255, 255, 255, 0.9);
+  --ec-card-bg-solid: rgba(255, 255, 255, 0.95);
+  --ec-border: rgba(255, 255, 255, 0.7);
+  --ec-shadow: 0 20px 45px -20px rgba(2, 6, 23, 0.65), 0 4px 16px -8px rgba(2, 6, 23, 0.45);
+  --ec-blur: 18px;
+  --ec-radius: 18px;
+  --ec-text: #1e293b;
+  --ec-text-dim: #64748b;
+}
+
+html[data-theme="dark"] {
+  --ec-card-bg: rgba(24, 32, 50, 0.82);
+  --ec-card-bg-solid: rgba(24, 32, 50, 0.9);
+  --ec-border: rgba(255, 255, 255, 0.12);
+  --ec-shadow: 0 20px 45px -20px rgba(0, 0, 0, 0.8), 0 4px 16px -8px rgba(0, 0, 0, 0.55);
+  --ec-text: #e8eefb;
+  --ec-text-dim: #93a4bd;
+}
+
+/* ---------------- 全局背景 ---------------- */
+#web_bg {
+  background-attachment: fixed !important;
+  background-position: center center !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+}
+
+body {
+  background-color: #070b14;
+}
+
+/* 粒子网 canvas 不吃鼠标事件（脚本动态创建，只能是 body 直接子元素） */
+body > canvas {
+  pointer-events: none;
+}
+
+/* banner 透出壁纸 + 粒子网，让首屏和页面背景连成一片 */
+#page-header.full_page,
+#page-header.post-bg {
+  background-image: none !important;
+  background-color: transparent !important;
+}
+
+#page-header.full_page::before,
+#page-header.post-bg::before {
+  background: radial-gradient(
+    ellipse 78% 68% at 50% 38%,
+    rgba(7, 11, 20, 0.02) 0%,
+    rgba(7, 11, 20, 0.45) 62%,
+    rgba(7, 11, 20, 0.72) 100%
+  ) !important;
+}
+
+/* 文章页 banner 标题区：加一层柔和暗幕保证白字可读 */
+#page-header.post-bg #post-info {
+  text-shadow: 0 3px 24px rgba(0, 0, 0, 0.9);
+}
+
+/* ---------------- 顶栏：毛玻璃 ---------------- */
+#nav {
+  background: rgba(9, 14, 24, 0.55) !important;
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.03) !important;
+}
+
+#nav .site-name,
+#nav #site-name,
+#nav .nav-title,
+#nav .site-title,
+#nav #site-title {
+  color: #f1f5ff !important;
+  font-weight: 800 !important;
+  font-size: 1.12rem !important;
+  letter-spacing: 0.6px;
+}
+
+#nav .menus_items .menus_item > a,
+#nav .menus_items .menus_item > span {
+  color: rgba(241, 245, 255, 0.82) !important;
+  border-radius: 9px;
+  padding: 4px 11px !important;
+  transition: all 0.25s ease;
+}
+
+#nav .menus_items .menus_item > a:hover,
+#nav .menus_items .menus_item > span:hover {
+  color: #fff !important;
+  background: rgba(255, 255, 255, 0.11) !important;
+}
+
+#nav #search-button,
+#nav #toggle-menu,
+#nav .nav-icon {
+  color: #f1f5ff !important;
+}
+
+#nav.nav-fixed,
+#page-header.nav-fixed #nav {
+  background: rgba(7, 11, 20, 0.85) !important;
+}
+
+/* ---------------- 首页首屏 ---------------- */
+#page-header.full_page {
+  background-size: cover !important;
+  background-position: center !important;
+}
+
+#page-header.full_page::before {
+  background: radial-gradient(ellipse 70% 60% at 50% 38%, rgba(7, 11, 20, 0.15) 0%, rgba(7, 11, 20, 0.68) 100%) !important;
+}
+
+#site-title {
+  font-size: 3.4rem !important;
+  font-weight: 900 !important;
+  letter-spacing: 4px !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  background: none !important;
+  text-shadow:
+    0 2px 0 rgba(15, 23, 42, 0.2),
+    0 10px 40px rgba(0, 0, 0, 0.8),
+    0 0 70px rgba(99, 102, 241, 0.55) !important;
+  filter: none !important;
+}
+
+/* 标题下方一条渐变细线，替代渐变字 */
+#site-info #site-title::after {
+  content: "";
+  display: block;
+  width: 64px;
+  height: 3px;
+  margin: 18px auto 0;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #6366f1, #22d3ee);
+  box-shadow: 0 0 18px rgba(99, 102, 241, 0.9);
+}
+
+#site-subtitle,
+#subtitle {
+  font-size: 1.18rem !important;
+  letter-spacing: 2.5px !important;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.85) !important;
+  color: rgba(233, 240, 255, 0.92) !important;
+}
+
+#site_social_icons .social-icon {
+  color: rgba(233, 240, 255, 0.85) !important;
+  transition: transform 0.25s ease, color 0.25s ease;
+}
+
+#site_social_icons .social-icon:hover {
+  color: #fff !important;
+  transform: translateY(-3px) scale(1.12);
+}
+
+#scroll-down .scroll-down-effects {
+  color: rgba(233, 240, 255, 0.75) !important;
+}
+
+/* ---------------- 卡片：毛玻璃 ---------------- */
+.recent-post-item,
+.card-widget,
+#pagination .pagination {
+  background: var(--ec-card-bg) !important;
+  backdrop-filter: blur(var(--ec-blur)) saturate(170%);
+  -webkit-backdrop-filter: blur(var(--ec-blur)) saturate(170%);
+  border: 1px solid var(--ec-border) !important;
+  border-radius: var(--ec-radius) !important;
+  box-shadow: var(--ec-shadow) !important;
+}
+
+.recent-post-item,
+#aside-content .card-widget {
+  overflow: hidden;
+}
+
+.recent-post-item {
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
+}
+
+.recent-post-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 30px 60px -22px rgba(2, 6, 23, 0.8), 0 10px 26px -10px rgba(2, 6, 23, 0.5) !important;
+}
+
+/* 卡片文字配色 */
+.recent-post-item .article-title {
+  color: var(--ec-text) !important;
+  font-weight: 700 !important;
+  transition: color 0.2s ease;
+}
+
+.recent-post-item .article-title:hover {
+  color: var(--ec-accent) !important;
+}
+
+.recent-post-item .content,
+.recent-post-item .article-meta-wrap {
+  color: var(--ec-text-dim) !important;
+}
+
+/* ---------------- 侧栏卡片 ---------------- */
+#aside-content .card-widget .item-headline {
+  color: var(--ec-text) !important;
+  font-weight: 700 !important;
+  font-size: 1rem !important;
+}
+
+#aside-content .card-widget .item-headline i {
+  color: var(--ec-accent) !important;
+}
+
+/* 作者卡 */
+#aside-content .card-info .author-info-name {
+  color: var(--ec-text) !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.5px;
+}
+
+#aside-content .card-info .author-info-description {
+  color: var(--ec-text-dim) !important;
+}
+
+#aside-content .card-info .site-data .headline {
+  color: var(--ec-text-dim) !important;
+  font-size: 0.82rem !important;
+}
+
+#aside-content .card-info .site-data .length-num {
+  color: var(--ec-accent) !important;
+  font-weight: 800 !important;
+  font-size: 1.15rem !important;
+}
+
+#aside-content .card-info .site-data a:hover .length-num {
+  color: var(--ec-accent-2) !important;
+}
+
+#aside-content .card-info #card-info-btn {
+  background: linear-gradient(135deg, var(--ec-accent) 0%, var(--ec-accent-2) 100%) !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 10px !important;
+  box-shadow: 0 10px 24px -10px rgba(99, 102, 241, 0.9) !important;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+#aside-content .card-info #card-info-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 30px -12px rgba(99, 102, 241, 1) !important;
+}
+
+#aside-content .card-info .card-info-social-icons .social-icon {
+  color: var(--ec-text-dim) !important;
+  transition: transform 0.25s ease;
+}
+
+#aside-content .card-info .card-info-social-icons .social-icon:hover {
+  transform: scale(1.15);
+}
+
+/* 网站信息卡 */
+#aside-content .card-webinfo .webinfo .name {
+  color: var(--ec-text-dim) !important;
+}
+
+#aside-content .card-webinfo .webinfo .num,
+#aside-content .card-webinfo .webinfo-item .num {
+  color: var(--ec-accent) !important;
+  font-weight: 700 !important;
+}
+
+/* 归档 / 分类 / 标签列表 */
+#aside-content .card-archives ul li a,
+#aside-content .card-categories ul li a,
+#aside-content .card-recent-post .item-title a {
+  color: var(--ec-text-dim) !important;
+  transition: color 0.2s ease;
+}
+
+#aside-content .card-archives ul li a:hover,
+#aside-content .card-categories ul li a:hover,
+#aside-content .card-recent-post .item-title a:hover {
+  color: var(--ec-accent) !important;
+}
+
+/* ---------------- 文章页 ---------------- */
+#post-info .post-title,
+#post-info #post-title {
+  text-shadow: 0 4px 34px rgba(0, 0, 0, 0.75) !important;
+  font-weight: 800 !important;
+}
+
+#article-container a:not(.headerlink):not(.fancybox) {
+  color: var(--ec-accent) !important;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(99, 102, 241, 0.35);
+  transition: border-color 0.2s ease;
+}
+
+#article-container a:not(.headerlink):not(.fancybox):hover {
+  border-bottom-color: var(--ec-accent);
+}
+
+#article-container blockquote {
+  border-left: 4px solid var(--ec-accent) !important;
+  background: rgba(99, 102, 241, 0.07) !important;
+  border-radius: 10px;
+  padding: 14px 18px !important;
+  color: var(--ec-text-dim) !important;
+}
+
+#article-container h2 {
+  border-bottom: 1px solid rgba(99, 102, 241, 0.28) !important;
+  padding-bottom: 8px;
+}
+
+#article-container h2::before {
+  background: linear-gradient(135deg, var(--ec-accent), var(--ec-accent-2)) !important;
+  border-radius: 4px !important;
+}
+
+/* 目录 */
+#card-toc .toc-link.is-active-link {
+  background: linear-gradient(135deg, var(--ec-accent), var(--ec-accent-2)) !important;
+  color: #fff !important;
+  border-radius: 7px;
+}
+
+/* ---------------- 页脚 ---------------- */
+#footer {
+  background: transparent !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+#footer::before {
+  background: rgba(7, 11, 20, 0.4) !important;
+}
+
+#footer-wrap,
+#footer-wrap a,
+#footer .copyright {
+  color: rgba(233, 240, 255, 0.7) !important;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.7);
+}
+
+#footer-wrap a:hover {
+  color: #fff !important;
+}
+
+/* ---------------- 右侧工具按钮 ---------------- */
+#rightside > div > button,
+#rightside > div > a {
+  background: var(--ec-card-bg-solid) !important;
+  border: 1px solid var(--ec-border) !important;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 8px 22px -10px rgba(2, 6, 23, 0.7);
+  color: var(--ec-text) !important;
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+
+#rightside > div > button:hover,
+#rightside > div > a:hover {
+  transform: translateY(-2px);
+  background: var(--ec-accent) !important;
+  color: #fff !important;
+}
+
+/* ---------------- 分页 / 搜索 ---------------- */
+#pagination .page-number.current {
+  background: linear-gradient(135deg, var(--ec-accent), var(--ec-accent-2)) !important;
+  color: #fff !important;
+}
+
+#local-search .search-dialog {
+  border-radius: var(--ec-radius) !important;
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+/* ---------------- 滚动条 ---------------- */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--ec-accent), var(--ec-accent-2));
+  border-radius: 8px;
+}
+
+/* ---------------- 移动端微调 ---------------- */
+@media (max-width: 768px) {
+  #site-title {
+    font-size: 2.05rem !important;
+    letter-spacing: 2px !important;
+  }
+
+  #site-subtitle,
+  #subtitle {
+    font-size: 0.95rem !important;
+    letter-spacing: 1.5px !important;
+  }
+
+  :root {
+    --ec-radius: 14px;
+  }
+}
