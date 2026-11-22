@@ -331,12 +331,16 @@ canvas_ribbon:
   mobile: false
 
 # 鼠标吸附粒子网（参考 chan-shaw.github.io 的效果）
+# color 是 "R,G,B"：
+#   · 壁纸偏亮（白、浅色、水墨）→ 用深色，比如 '38,52,80'
+#   · 壁纸偏暗（夜空、深蓝）→ 用浅色，比如 '170,190,255'
+# 不透明度越高越明显；count 是粒子数量（120 左右比较克制）
 canvas_nest:
   enable: true
-  color: '139,150,255'
-  opacity: 0.62
+  color: '12,22,44'
+  opacity: 1
   zIndex: -1
-  count: 120
+  count: 200
   mobile: false
 
 click_heart:

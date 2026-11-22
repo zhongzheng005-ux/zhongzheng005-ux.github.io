@@ -216,6 +216,7 @@ body > canvas {
 /* ---------------- 卡片：深色毛玻璃 ---------------- */
 .recent-post-item,
 #post,
+#archive,
 .card-widget,
 #pagination .pagination {
   background: var(--ec-card-bg) !important;
@@ -231,8 +232,46 @@ body > canvas {
 
 .recent-post-item,
 #post,
+#archive,
 #aside-content .card-widget {
   overflow: hidden;
+}
+
+/* 归档页时间线配色（深色玻璃上要重配一遍） */
+#archive .article-sort-title,
+#archive .article-sort-title .num,
+#archive .article-sort-item-title,
+#archive .article-sort-item-title:hover,
+#archive .article-sort-item-time,
+#archive .article-sort-item-date,
+#archive time {
+  color: var(--ec-text) !important;
+}
+
+#archive .article-sort-item-time,
+#archive .article-sort-item-date,
+#archive .article-sort-year-title,
+#archive .article-sort-item__title {
+  color: var(--ec-text-dim) !important;
+}
+
+#archive .article-sort-item::before,
+#archive .article-sort-title::before,
+#archive .article-sort-title::after,
+#archive .article-sort-item.year::before {
+  border-color: rgba(255, 255, 255, 0.18) !important;
+}
+
+#archive .article-sort-item.year,
+#archive .article-sort-item.year > div,
+#archive .article-sort-item.year:hover {
+  background: transparent !important;
+  color: var(--ec-text) !important;
+}
+
+#archive .article-sort-item.year::before {
+  background: rgba(255, 255, 255, 0.14) !important;
+  border-color: var(--ec-accent) !important;
 }
 
 /* 文章正文、标题这些要亮一档 */
@@ -493,10 +532,72 @@ body > canvas {
   color: #fff !important;
 }
 
+/* ---------------- 本地搜索弹窗 ---------------- */
 #local-search .search-dialog {
+  background: rgba(9, 14, 25, 0.82) !important;
+  backdrop-filter: blur(20px) saturate(170%);
+  -webkit-backdrop-filter: blur(20px) saturate(170%);
+  border: 1px solid var(--ec-border) !important;
   border-radius: var(--ec-radius) !important;
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: var(--ec-shadow) !important;
+  color: var(--ec-text) !important;
+}
+
+#local-search .search-dialog .search-dialog-title,
+#local-search .search-dialog #local-search-title {
+  color: var(--ec-text) !important;
+  font-weight: 700 !important;
+}
+
+#local-search .search-dialog .search-close-button,
+#local-search .search-dialog .search-close-button i,
+#local-search .search-dialog .search-close-button svg {
+  color: var(--ec-text-dim) !important;
+}
+
+#local-search .search-dialog .search-close-button:hover {
+  color: var(--ec-accent-2) !important;
+}
+
+#local-search .search-dialog input,
+#local-search .search-dialog .search-input,
+#local-search .local-search-input input {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  border-radius: 10px !important;
+  color: var(--ec-text) !important;
+  box-shadow: none !important;
+}
+
+#local-search .search-dialog input::placeholder {
+  color: rgba(163, 180, 210, 0.75) !important;
+}
+
+#local-search .search-dialog input:focus {
+  border-color: var(--ec-accent) !important;
+  outline: none !important;
+}
+
+#local-search .search-dialog .search-icon,
+#local-search .search-dialog .search-icon svg {
+  color: var(--ec-accent-2) !important;
+}
+
+#local-search .search-dialog .search-result,
+#local-search .search-dialog .local-search-hit-title,
+#local-search .search-dialog .local-search-hit-content {
+  color: var(--ec-text-dim) !important;
+}
+
+#local-search .search-dialog .local-search-hit-title em,
+#local-search .search-dialog .local-search-hit-content em {
+  color: var(--ec-accent-2) !important;
+  background: transparent !important;
+}
+
+#local-search .search-dialog hr,
+#local-search .search-dialog .search-result-item {
+  border-color: rgba(255, 255, 255, 0.12) !important;
 }
 
 /* ---------------- 滚动条 ---------------- */
