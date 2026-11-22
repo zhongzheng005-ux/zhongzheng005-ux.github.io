@@ -87,7 +87,7 @@ cd F:\dsh-mcp\blog
 
 | 你的壁纸 | 脚本的做法 | 博客上的效果 |
 |---|---|---|
-| **Wallpaper Engine**（视频壁纸 `.mp4`） | 用 ffmpeg 压成 720p/24fps 循环视频（约 3~5 MB）+ 抽一张海报图 | **会动的背景** |
+| **Wallpaper Engine**（视频壁纸 `.mp4`） | 用 ffmpeg 压成 **1080p/30fps** 循环视频（约 30 MB）+ 抽一张 1080p 海报图 | **会动的背景** |
 | **Wallpaper Engine**（图片壁纸） | 等比缩放成 JPEG | 静态背景 |
 | **Windows 桌面壁纸**（静态图） | 等比缩放到不超过 2560 宽、转 JPEG | 静态背景 |
 
@@ -98,7 +98,8 @@ cd F:\dsh-mcp\blog
 
 - **不是实时同步**。你换了壁纸，博客不会自己变；想变就再跑一次脚本。
 - 视频壁纸要 ffmpeg。本机没有的话脚本会**自动下载一份**到 `tools\bin\`（约 105 MB，只下一次，已被 `.gitignore` 排除，不会进仓库）。也可以自己装一个丢进 `tools\bin\ffmpeg.exe`。
-- 视频太大就压狠一点：`.\tools\update-wallpaper.ps1 -VideoCrf 38 -VideoSeconds 30`（数字越大体积越小）
+- 视频默认 **1080p / 30fps / crf 24（约 30 MB）**。想更清晰：`-VideoHeight 1440 -VideoCrf 22`（体积大约翻倍）；
+  想省流量：`-VideoHeight 720 -VideoCrf 28`（几 MB，但会明显糊）；嫌太长：`-VideoSeconds 30`。
 - 静态图太大首屏会慢：`.\tools\update-wallpaper.ps1 -MaxWidth 1920 -Quality 78`
 - 想换回内置壁纸，把 `background:` 改回 `/img/bg.svg`（或 aurora / midnight），
   并把 `inject.bottom` 里 `# >>> wallpaper (managed) >>>` 到 `# <<< wallpaper (managed) <<<` 之间那段删掉再 push。
