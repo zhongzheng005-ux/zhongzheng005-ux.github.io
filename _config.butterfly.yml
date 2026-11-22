@@ -1,0 +1,343 @@
+# ============================================================
+#  Butterfly 主题配置 —— Eclipse 的博客
+#  改完 push 即可，GitHub Actions 会自动重新构建
+#  完整键名含义见 https://butterfly.js.org/
+# ============================================================
+
+# ---------- 导航栏 ----------
+nav:
+  display_title: true
+  display_post_title: true
+  fixed: false
+
+# 菜单：显示名: 路径 || 图标
+menu:
+  首页: / || fas fa-home
+  归档: /archives/ || fas fa-archive
+  标签: /tags/ || fas fa-tags
+  分类: /categories/ || fas fa-folder-open
+
+# ---------- 代码块 ----------
+code_blocks:
+  theme: light
+  macStyle: false
+  height_limit: false
+  word_wrap: false
+  copy: true
+  language: true
+  shrink: false
+  fullpage: false
+
+# ---------- 社交图标 ----------
+social:
+  fab fa-github: https://github.com/zhongzheng005-ux || GitHub || '#24292e'
+
+# ---------- 头像 ----------
+avatar:
+  img: /img/avatar.jpg
+  effect: true
+
+# ---------- 首页横幅 ----------
+disable_top_img: false
+default_top_img:
+index_img:
+archive_img:
+
+# 文章默认封面（没配 cover 的文章用这几个渐变轮换）
+cover:
+  index_enable: true
+  aside_enable: true
+  archives_enable: true
+  default_cover:
+    - linear-gradient(135deg, #667eea 0%, #764ba2 100%)
+    - linear-gradient(135deg, #f093fb 0%, #f5576c 100%)
+    - linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)
+    - linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)
+    - linear-gradient(135deg, #fa709a 0%, #fee140 100%)
+    - linear-gradient(135deg, #30cfd0 0%, #330867 100%)
+
+# ---------- 文章元信息 ----------
+post_meta:
+  page:
+    date_type: created
+    date_format: date
+    categories: true
+    tags: false
+    label: true
+  post:
+    position: left
+    date_type: both
+    date_format: date
+    categories: true
+    tags: true
+    label: true
+
+# ---------- 首页 ----------
+index_site_info_top:
+index_top_img_height:
+index_layout: 3
+index_post_content:
+  method: 3
+  length: 300
+
+# 打字机副标题
+subtitle:
+  enable: true
+  effect: true
+  typed_option:
+  source: false
+  sub:
+    - 记录折腾过的东西
+    - 逆向 · 协议 · 自动化
+    - 想到啥写啥，不定期更新
+
+# ---------- 文章页 ----------
+toc:
+  post: true
+  page: false
+  number: true
+  expand: false
+  style_simple: false
+  scroll_percent: true
+
+post_copyright:
+  enable: true
+  decode: false
+  author_href: https://github.com/zhongzheng005-ux
+  license: CC BY-NC-SA 4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+reward:
+  enable: false
+
+post_edit:
+  enable: false
+
+related_post:
+  enable: true
+  limit: 6
+  date_type: created
+
+post_pagination: 1
+
+noticeOutdate:
+  enable: false
+  style: flat
+  limit_day: 365
+  position: top
+  message_prev: It has been
+  message_next: days since the last update, the content of the article may be outdated.
+
+# ---------- 页脚 ----------
+footer:
+  nav:
+  owner:
+    enable: true
+    since: 2026
+  copyright:
+    enable: true
+    version: true
+  custom_text:
+
+# ---------- 侧边栏 ----------
+aside:
+  enable: true
+  hide: false
+  button: true
+  mobile: true
+  position: right
+  display:
+    archive: true
+    tag: true
+    category: true
+  card_author:
+    enable: true
+    description: 一只戴贝雷帽看书的猫。
+    button:
+      enable: true
+      icon: fab fa-github
+      text: 关注我
+      link: https://github.com/zhongzheng005-ux
+  card_announcement:
+    enable: true
+    content: 这里记录折腾过的东西，想到啥写啥。
+  card_recent_post:
+    enable: true
+    limit: 5
+    sort: date
+    sort_order:
+  card_newest_comments:
+    enable: false
+  card_categories:
+    enable: true
+    limit: 8
+    expand: none
+    sort_order:
+  card_tags:
+    enable: true
+    limit: 40
+    color: false
+    custom_colors:
+    orderby: random
+    order: 1
+    sort_order:
+  card_archives:
+    enable: true
+    type: monthly
+    format: YYYY年MM月
+    order: -1
+    limit: 8
+    sort_order:
+  card_post_series:
+    enable: false
+  # 站点概览卡（含总字数 / 载入天数）
+  card_webinfo:
+    enable: true
+    post_count: true
+    last_push_date: true
+    sort_order:
+    # 「载入天数」从这里开始算
+    runtime_date: '2026-11-22 13:00:00'
+
+rightside_bottom:
+
+# ---------- 界面 ----------
+readmode: true
+
+darkmode:
+  enable: true
+  button: true
+  autoChangeMode: false
+  start:
+  end:
+
+rightside_scroll_percent: false
+rightside_item_order:
+  enable: false
+  hide:
+  show:
+rightside_config_animation: true
+
+rounded_corners_ui: true
+text_align_justify: false
+
+mask:
+  header: true
+  footer: true
+
+preloader:
+  enable: true
+  source: 1
+  pace_css_url:
+
+enter_transitions: true
+display_mode: light
+
+# ---------- 字数统计（站点概览的总字数 / 阅读时长）----------
+wordcount:
+  enable: true
+  post_wordcount: true
+  min2read: true
+  total_wordcount: true
+
+# ---------- 访问量（不蒜子，免费无需注册）----------
+busuanzi:
+  site_uv: true
+  site_pv: true
+  page_pv: true
+
+# ---------- 本地搜索 ----------
+search:
+  use: local_search
+  placeholder: 搜索文章
+  local_search:
+    preload: true
+    top_n_per_article: 1
+    unescape: false
+    pagination:
+      enable: false
+      hitsPerPage: 8
+
+# ---------- 分享 ----------
+share:
+  use: sharejs
+  sharejs:
+    sites: wechat,weibo,qq
+
+# ---------- 评论（giscus）----------
+# repo_id / category_id 需要去 https://giscus.app 生成后填进来
+comments:
+  use: Giscus
+  text: true
+  lazyload: false
+  count: false
+  card_post_count: false
+
+giscus:
+  repo: zhongzheng005-ux/zhongzheng005-ux.github.io
+  repo_id:
+  category_id:
+  light_theme: light
+  dark_theme: dark
+  option:
+
+# ---------- 美化 ----------
+anchor:
+  auto_update: false
+  click_to_scroll: false
+
+photofigcaption: false
+
+copy:
+  enable: true
+  copyright:
+    enable: false
+    limit_count: 150
+
+canvas_ribbon:
+  enable: false
+  size: 150
+  alpha: 0.6
+  zIndex: -1
+  click_to_change: false
+  mobile: false
+
+click_heart:
+  enable: false
+  mobile: false
+
+fireworks:
+  enable: false
+  zIndex: 9999
+  mobile: false
+
+lightbox: fancybox
+mermaid:
+  enable: false
+pjax:
+  enable: false
+instantpage: false
+lazyload:
+  enable: false
+  native: false
+  field: site
+
+pwa:
+  enable: false
+
+Open_Graph_meta:
+  enable: true
+  option:
+
+css_prefix: true
+
+inject:
+  head:
+  bottom:
+
+# ---------- CDN ----------
+CDN:
+  internal_provider: local
+  third_party_provider: jsdelivr
+  version: true
+  custom_format:

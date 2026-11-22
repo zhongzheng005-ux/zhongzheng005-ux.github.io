@@ -1,131 +1,81 @@
 # ============================================================
-#  0x005 · 逆向与安全手记  ——  Jekyll 站点配置
-#  改完这个文件需要等 GitHub 重新构建（约 1 分钟）
+#  Hexo 主配置 —— Eclipse 的博客
+#  主题外观请改 _config.butterfly.yml
 # ============================================================
 
-# ---------- 站点身份 ----------
-locale: "zh-CN"                       # 界面文字用中文（日期、阅读更多等）
-title: "0x005 · 逆向与安全手记"
-name: "0x005"
-description: "不定期更新，想到啥写啥"
-url: "https://zhongzheng005-ux.github.io"
-baseurl: ""
+# ---------- 站点 ----------
+title: Eclipse的博客
+subtitle: ''
+description: '记录折腾过的东西'
+keywords:
+author: Eclipse
+language: zh-CN
 
-# giscus 评论靠这一行找到你的仓库，别改
-repository: "zhongzheng005-ux/zhongzheng005-ux.github.io"
+# 时区（GitHub Actions 跑在 UTC，这里固定成北京时间）
+timezone: 'Asia/Shanghai'
 
-# ---------- 外观 ----------
-# 可选皮肤：default / air / contrast / dark / dirt / mint / sunrise
-#           aqua / neon / plum / catppuccin_latte / catppuccin_mocha
-minimal_mistakes_skin: "dark"
+# ---------- 网址 ----------
+# 用户主页站，根路径；不要加子目录
+url: https://zhongzheng005-ux.github.io
+root: /
+permalink: :year/:month/:day/:title/
+permalink_defaults:
+pretty_urls:
+  trailing_index: true
+  trailing_html: true
 
-# 站内搜索（需要时会生成索引；关掉可省一点构建时间）
-search: false
+# ---------- 目录 ----------
+source_dir: source
+public_dir: public
+tag_dir: tags
+archive_dir: archives
+category_dir: categories
+code_dir: downloads/code
+i18n_dir: ':lang'
+skip_render:
 
-# ---------- 主题 ----------
-# 用 remote_theme 就不用装任何东西，GitHub 会自动拉取并构建
-remote_theme: "mmistakes/minimal-mistakes@4.28.1"
-
-# ============================================================
-#  以下内容一般不用动
-# ============================================================
-
-# ---------- 构建 ----------
-markdown: kramdown
-highlighter: rouge
-
-permalink: /:year/:month/:day/:title/
-
-timezone: Asia/Shanghai
+# ---------- 写作 ----------
+new_post_name: ':title.md'
+default_layout: post
+titlecase: false
+external_link:
+  enable: true
+  field: site
+  exclude: ''
+filename_case: 0
+render_drafts: false
+post_asset_folder: false
+relative_link: false
 future: true
 
-include:
-  - _pages
+# ---------- 代码高亮 ----------
+syntax_highlighter: highlight.js
+highlight:
+  line_number: true
+  auto_detect: false
+  tab_replace: ''
+  wrap: true
+  hljs: false
 
-plugins:
-  - jekyll-sitemap
-  - jekyll-gist
-  - jekyll-feed
-  - jemoji
-  - jekyll-include-cache
-  - jekyll-remote-theme
+# ---------- 分类与标签 ----------
+default_category: uncategorized
+category_map:
+tag_map:
 
-exclude:
-  - Gemfile
-  - Gemfile.lock
-  - node_modules
-  - vendor
-  - README.md
+# ---------- 日期格式 ----------
+date_format: YYYY-MM-DD
+time_format: HH:mm:ss
+updated_option: 'mtime'
 
-# ---------- 侧边栏作者信息 ----------
-# 只写技术方向，不放真名 / 邮箱 / 位置等个人信息
-author:
-  name: "0x005"
-  bio: "写点逆向工程、Android 分析、协议抓包和自动化折腾的记录。"
-  links:
-    - label: "GitHub"
-      icon: "fab fa-fw fa-github"
-      url: "https://github.com/zhongzheng005-ux"
+# ---------- 分页 ----------
+per_page: 10
+pagination_dir: page
 
-# ---------- 页脚链接 ----------
-footer:
-  links:
-    - label: "GitHub"
-      icon: "fab fa-fw fa-github"
-      url: "https://github.com/zhongzheng005-ux"
+# ---------- 主题 ----------
+# 从 npm 安装的 hexo-theme-butterfly
+theme: butterfly
 
-# ---------- 评论（giscus） ----------
-# 还需要做两件事才能真正生效，见仓库 README：
-#   1. 仓库 Settings → General → Features 勾上 Discussions
-#   2. 去 https://giscus.app 装 App 并拿到 repo_id / category_id 填到下面
-comments:
-  provider: "giscus"
-  giscus:
-    repo_id: ""                  # ← 从 giscus.app 复制，形如 R_kgDOxxxxxxx
-    category_name: "Announcements"
-    category_id: ""              # ← 从 giscus.app 复制，形如 DIC_kwDOxxxxxxxx
-    discussion_term: "pathname"  # 一篇文章对应一个讨论帖
-    reactions_enabled: "1"
-    input_position: "bottom"
-    theme: "preferred_color_scheme"
-    lang: "zh-CN"                # 评论区界面用中文
-    lazy: true
-
-# ---------- 访问统计 ----------
-# 默认用「不蒜子」：零注册、免登录，脚本在 _includes/footer/custom.html 里。
-# 如果你更想用 Google Analytics，把下面两行的注释去掉并填上自己的 ID 即可：
-analytics:
-  provider: false
-  # provider: "google-gtag"
-  # google:
-  #   tracking_id: "G-XXXXXXXXXX"
-
-# ---------- 分类 / 标签归档页 ----------
-# type: liquid 不需要插件，GitHub Pages 直接支持
-category_archive:
-  type: liquid
-  path: /categories/
-tag_archive:
-  type: liquid
-  path: /tags/
-
-# ---------- 各类页面的默认布局 ----------
-defaults:
-  # 文章
-  - scope:
-      path: ""
-      type: posts
-    values:
-      layout: single
-      author_profile: true
-      read_time: true
-      comments: true
-      share: false
-      related: true
-  # _pages/ 下的独立页面
-  - scope:
-      path: "_pages"
-      type: pages
-    values:
-      layout: single
-      author_profile: true
+# ---------- 部署 ----------
+# 由 GitHub Actions 负责（见 .github/workflows/pages.yml），这里留空
+deploy:
+  type: ''

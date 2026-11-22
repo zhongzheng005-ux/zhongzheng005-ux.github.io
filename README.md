@@ -1,185 +1,126 @@
-# 0x005 · 逆向与安全手记
-
-我的个人博客源码，用 **Jekyll + Minimal Mistakes** 搭在 **GitHub Pages** 上。
+# Eclipse的博客
 
 > 站点地址：https://zhongzheng005-ux.github.io
 
-这是一个**用户主页站**（仓库名必须叫 `zhongzheng005-ux.github.io`），
-推上来之后 GitHub 会自动构建并发布，**不需要任何 CI、不需要装任何东西**。
+**Hexo 7 + [Butterfly](https://butterfly.js.org/) 主题**，部署在 **GitHub Pages**（用户主页站）。
+
+推上来就完事 —— **不用本地装 Node、不用跑任何命令**，GitHub Actions 会自动构建发布。
+
+---
+
+## 首次上线要在这里点一下 ⚠️
+
+仓库 → **Settings** → 左侧 **Pages** → **Build and deployment**
+
+- **Source** 选 **GitHub Actions**（不是 "Deploy from a branch"）
+
+保存之后，每次 push 到 `main` 都会自动构建，1～2 分钟后上线。
 
 ---
 
 ## 怎么发一篇文章
 
-在 `_posts/` 目录下新建一个文件，**文件名必须是 `日期-标题.md`** 的格式：
-
-```
-_posts/2026-09-27-my-first-post.md
-```
-
-文件内容：
+在 `source/_posts/` 下新建 `标题.md`（中文标题可以），内容：
 
 ```markdown
 ---
-title: "文章标题"
-date: 2026-09-27 10:00:00 +0800
-categories: [逆向]
-tags: [android, frida]
+title: 我的第一篇文章
+date: 2026-11-22 13:00:00
+tags:
+  - 逆向
+  - 安卓
+categories:
+  - 技术
+description: 一句话简介，会显示在首页卡片上
+cover:
+top_img:
 ---
 
-正文用 Markdown 写就行。
-
-## 二级标题
-
-```python
-# 代码块会自动高亮
-print("hello")
-```
+正文，正常写 Markdown。
 ```
 
-保存后提交推送，等大约 1 分钟 GitHub 构建完，刷新网站就能看到。
+然后：
 
-> `categories` 和 `tags` 可以随便写，会各自生成归档页（`/categories/`、`/tags/`）。
-> `title` / `date` / `layout` / `comments` 这些**不用重复写** —— `_config.yml` 里已经给所有文章设好默认值了。
-
----
-
-## 目录结构
-
+```bash
+git add .
+git commit -m "new post"
+git push
 ```
-_config.yml                  ← 全站配置（标题、主题、评论、统计……）
-Gemfile                      ← 本地预览用的依赖声明
-index.html                   ← 首页（落地页）
-_data/navigation.yml         ← 顶部导航栏
-_pages/blog.md               ← /blog/  文章归档
-_pages/about.md              ← /about/ 关于
-_pages/projects.md           ← /projects/ 项目
-_includes/footer/custom.html ← 访问统计脚本
-_posts/                      ← 文章放这里（目前是空的）
+
+等 Actions 跑完就上线了。
+
+### 想本地预览
+
+需要先装 [Node.js](https://nodejs.org/)：
+
+```bash
+npm install
+npx hexo server        # 打开 http://localhost:4000
 ```
 
 ---
 
-## 常改的几个地方
+## 文件都管什么
 
-### 改站名 / 副标题
-
-`_config.yml`：
-
-```yaml
-title: "0x005 · 逆向与安全手记"
-description: "不定期更新，想到啥写啥"
-```
-
-### 换配色
-
-`_config.yml` 里的 `minimal_mistakes_skin`，可选：
-
-`default` `air` `contrast` `dark` `dirt` `mint` `sunrise` `aqua` `neon` `plum` `catppuccin_latte` `catppuccin_mocha`
-
-### 改导航栏
-
-`_data/navigation.yml`。
-
-### 改侧边栏自我介绍
-
-`_config.yml` 的 `author.bio`。
-
-### 加项目到项目页
-
-`_pages/projects.md` 的 `feature_row:`，照格式追一条。
+| 文件 | 作用 |
+|---|---|
+| `_config.yml` | 站点本身：站名、网址、语言、分页、永久链接 |
+| `_config.butterfly.yml` | **外观全在这**：头像、菜单、侧栏卡片、打字机、字数统计、暗色模式、评论 |
+| `package.json` | 依赖清单（Hexo 和主题版本） |
+| `.github/workflows/pages.yml` | 自动构建部署的流程 |
+| `source/_posts/` | **文章都放这里** |
+| `source/img/avatar.jpg` | 头像 |
+| `source/tags/index.md` | 标签页 |
+| `source/categories/index.md` | 分类页 |
+| `scaffolds/` | 新建文章的模板 |
 
 ---
 
-## 启用评论（giscus）
+## 常见改动
 
-评论区**现在还不会显示**，需要三步：
+### 改头像
+替换 `source/img/avatar.jpg`。
 
-**第 1 步：给仓库开 Discussions**
+### 改侧栏那句自我介绍
+`_config.butterfly.yml` → `aside.card_author.description`。
 
-仓库页面 → **Settings** → **General** → 往下拉到 **Features** → 勾上 **Discussions**。
+### 改打字机副标题
+`_config.butterfly.yml` → `subtitle.sub` 那个列表，加一行就多一句轮播。
 
-**第 2 步：装 giscus App**
+### 关掉某个侧栏卡片
+`_config.butterfly.yml` → `aside.card_xxx.enable: false`。
 
-打开 👉 https://github.com/apps/giscus → 点 **Install** → 选择 `zhongzheng005-ux.github.io` 这个仓库。
+### 开评论（giscus）
 
-**第 3 步：拿 ID 填进配置**
-
-打开 👉 https://giscus.app → 输入仓库名 `zhongzheng005-ux/zhongzheng005-ux.github.io` →
-下面会生成一段配置，把里面的两个值复制到 `_config.yml`：
-
-```yaml
-comments:
-  giscus:
-    repo_id: "R_kgDO..."        # ← 填这里
-    category_id: "DIC_kwDO..."  # ← 和这里
-```
-
-（`category_name` 默认 `Announcements`，如果 giscus 页面显示的是别的分类名，一起改掉。）
-
----
-
-## 访问统计
-
-默认用 **[不蒜子](https://busuanzi.ibruce.info/)** —— 零注册、免登录，脚本在
-`_includes/footer/custom.html`，装好就有数，页脚会显示「本站总访问量 N 次」。
-
-如果想换成 Google Analytics：
-
-1. 编辑 `_includes/footer/custom.html`，删掉里面那段
-2. 编辑 `_config.yml`：
-
-```yaml
-analytics:
-  provider: "google-gtag"
-  google:
-    tracking_id: "G-你的ID"
-```
-
-> ⚠️ 两者别同时开，会重复计数。
+1. 仓库 → **Settings** → **General** → 往下找到 **Features** → 勾上 **Discussions**
+2. 打开 https://giscus.app ，填入仓库 `zhongzheng005-ux/zhongzheng005-ux.github.io`
+3. 它会给你两个值，填到 `_config.butterfly.yml`：
+   ```yaml
+   giscus:
+     repo: zhongzheng005-ux/zhongzheng005-ux.github.io
+     repo_id: <填这里>
+     category_id: <填这里>
+   ```
+4. push，评论就出来了
 
 ---
 
-## 本地预览（可选）
+## 页面里都有什么
 
-只有想在本地看效果时才需要，**平时改完直接推上去就行**。
-
-需要先装 Ruby，然后：
-
-```powershell
-bundle install
-bundle exec jekyll serve
-```
-
-打开 http://127.0.0.1:4000 即可。
+- **首页** —— 文章卡片列表，带渐变封面
+- **归档** —— 按时间分组
+- **标签 / 分类** —— 自动从文章 front-matter 生成
+- **搜索** —— 本地全文搜索，不依赖任何第三方服务
+- **侧栏** —— 头像卡、公告、最近文章、分类、标签、归档、**站点概览**（总字数 / 阅读时长 / 载入天数）
+- **暗色模式** —— 右下角齿轮切换
+- **访问量** —— 不蒜子统计，免费、不用注册
 
 ---
 
-## 常见问题
+## 技术栈
 
-**网站 404 / 一直没构建？**
-
-去仓库 **Settings → Pages**，确认 **Source** 是 `Deploy from a branch`，
-分支选 `main`、目录选 `/ (root)`。
-
-**页面样式全丢了（纯文本）？**
-
-多半是 `_config.yml` 里 `remote_theme` 那一行被改坏了。它应该是：
-
-```yaml
-remote_theme: "mmistakes/minimal-mistakes@4.28.1"
-```
-
-**构建报 `Unknown tag 'include_cached'`？**
-
-`_config.yml` 的 `plugins:` 里必须有 `jekyll-include-cache`，别删。
-
-**想看构建日志？**
-
-仓库 → **Actions** 标签页，找最近一次 `pages build and deployment`。
-
----
-
-## 许可
-
-文章内容版权归作者所有；站点框架是 [Minimal Mistakes](https://github.com/mmistakes/minimal-mistakes)（MIT）。
+- [Hexo](https://hexo.io/) 7.3
+- [hexo-theme-butterfly](https://www.npmjs.com/package/hexo-theme-butterfly) 5.7（npm 安装，无需 submodule）
+- hexo-generator-searchdb（本地搜索）
+- hexo-wordcount（字数 / 阅读时长）
+- GitHub Actions + GitHub Pages

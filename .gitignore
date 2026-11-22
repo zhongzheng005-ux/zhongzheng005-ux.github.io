@@ -1,14 +1,17 @@
-# Jekyll 构建产物
-_site/
-.sass-cache/
-.jekyll-cache/
-.jekyll-metadata
+# Hexo 构建产物
+public/
+.deploy*/
 
-# 本地依赖（如果你用 bundle 在本地预览）
-vendor/
-.bundle/
+# 本地依赖
 node_modules/
+
+# Hexo 运行时生成的文件
+db.json
+*.log
 
 # 系统杂物
 .DS_Store
 Thumbs.db
+
+# 多配置
+_multiconfig.yml
