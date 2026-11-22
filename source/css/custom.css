@@ -7,22 +7,24 @@
 :root {
   --ec-accent: #6366f1;
   --ec-accent-2: #22d3ee;
-  /* 毛玻璃：半透明白 + 大模糊。透明度低一点壁纸能透出来，靠 blur 保证文字仍然清楚 */
-  --ec-card-bg: rgba(255, 255, 255, 0.5);
-  --ec-card-bg-solid: rgba(255, 255, 255, 0.68);
-  --ec-border: rgba(255, 255, 255, 0.55);
-  --ec-shadow: 0 24px 60px -24px rgba(2, 6, 23, 0.7), 0 4px 18px -8px rgba(2, 6, 23, 0.4);
-  --ec-blur: 28px;
+  /* 深色玻璃：白底玻璃在明亮壁纸上看不出透明，改用深色半透明 + 浅色文字，
+     这样无论壁纸是亮是暗，卡片都能和背景分离、壁纸也透得出来 */
+  --ec-card-bg: rgba(11, 17, 30, 0.45);
+  --ec-card-bg-solid: rgba(11, 17, 30, 0.66);
+  --ec-border: rgba(255, 255, 255, 0.14);
+  --ec-shadow: 0 26px 60px -26px rgba(2, 6, 23, 0.85), 0 6px 20px -10px rgba(2, 6, 23, 0.55);
+  /* 只做很轻的模糊：壁纸的笔触和细节要还能看清，不能糊成一团 */
+  --ec-blur: 5px;
   --ec-radius: 18px;
-  --ec-text: #14203a;
-  --ec-text-dim: #475569;
+  --ec-text: #eef4ff;
+  --ec-text-dim: #a3b4d2;
 }
 
 html[data-theme="dark"] {
-  --ec-card-bg: rgba(20, 27, 44, 0.5);
-  --ec-card-bg-solid: rgba(20, 27, 44, 0.68);
-  --ec-border: rgba(255, 255, 255, 0.12);
-  --ec-shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.85), 0 4px 18px -8px rgba(0, 0, 0, 0.5);
+  --ec-card-bg: rgba(8, 13, 24, 0.6);
+  --ec-card-bg-solid: rgba(8, 13, 24, 0.78);
+  --ec-border: rgba(255, 255, 255, 0.1);
+  --ec-shadow: 0 26px 60px -26px rgba(0, 0, 0, 0.9), 0 6px 20px -10px rgba(0, 0, 0, 0.6);
   --ec-text: #e8eefb;
   --ec-text-dim: #93a4bd;
 }
@@ -211,8 +213,9 @@ body > canvas {
   color: rgba(233, 240, 255, 0.75) !important;
 }
 
-/* ---------------- 卡片：毛玻璃 ---------------- */
+/* ---------------- 卡片：深色毛玻璃 ---------------- */
 .recent-post-item,
+#post,
 .card-widget,
 #pagination .pagination {
   background: var(--ec-card-bg) !important;
@@ -221,12 +224,70 @@ body > canvas {
   border: 1px solid var(--ec-border) !important;
   border-radius: var(--ec-radius) !important;
   /* 外投影 + 顶部内高光，模拟玻璃边缘的反光 */
-  box-shadow: var(--ec-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
+  box-shadow: var(--ec-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.16) !important;
+  /* 深色玻璃上的基础文字色，具体元素在后面再各自覆盖 */
+  color: var(--ec-text-dim) !important;
 }
 
 .recent-post-item,
+#post,
 #aside-content .card-widget {
   overflow: hidden;
+}
+
+/* 文章正文、标题这些要亮一档 */
+#post #article-container,
+#post #article-container p,
+#post #article-container li,
+#post .post-copyright,
+#post .post-copyright a,
+#post .post-meta__tags,
+#post .post-copyright-meta,
+#post .post-copyright-info {
+  color: var(--ec-text) !important;
+}
+
+#post #article-container h1,
+#post #article-container h2,
+#post #article-container h3,
+#post #article-container h4,
+#post #article-container h5,
+#post #article-container h6 {
+  color: var(--ec-text) !important;
+}
+
+#post .post-copyright {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border-left: 4px solid var(--ec-accent) !important;
+}
+
+#post hr {
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+/* 引用块 / 表格 / 行内代码在深色玻璃上重配色 */
+#post #article-container blockquote {
+  background: rgba(255, 255, 255, 0.07) !important;
+  border-left: 4px solid var(--ec-accent) !important;
+  color: var(--ec-text-dim) !important;
+}
+
+#post #article-container code:not([class*="language-"]) {
+  background: rgba(255, 255, 255, 0.12) !important;
+  color: #ffd9a0 !important;
+}
+
+#post #article-container table {
+  color: var(--ec-text) !important;
+}
+
+#post #article-container th,
+#post #article-container td {
+  border-color: rgba(255, 255, 255, 0.14) !important;
+}
+
+#post #article-container th {
+  background: rgba(255, 255, 255, 0.08) !important;
 }
 
 .recent-post-item {
@@ -386,12 +447,14 @@ body > canvas {
 #footer {
   background: transparent !important;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  /* 不要 backdrop-filter：页脚糊一层会把壁纸下半截整片抹掉 */
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 
 #footer::before {
-  background: rgba(7, 11, 20, 0.4) !important;
+  /* 只压一层很淡的暗色保证文字可读，壁纸仍然透出来 */
+  background: linear-gradient(to bottom, rgba(5, 9, 18, 0) 0%, rgba(5, 9, 18, 0.55) 100%) !important;
 }
 
 #footer-wrap,
